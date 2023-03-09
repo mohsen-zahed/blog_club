@@ -107,8 +107,7 @@ class CarouselSliderState extends State<CarouselSlider>
   @override
   void initState() {
     super.initState();
-    carouselState =
-        CarouselState(options, clearTimer, resumeTimer, changeMode);
+    carouselState = CarouselState(options, clearTimer, resumeTimer, changeMode);
 
     carouselState!.itemCount = widget.itemCount;
     carouselController.state = carouselState;
@@ -245,6 +244,7 @@ class CarouselSliderState extends State<CarouselSlider>
   Widget getCenterWrapper(Widget child) {
     if (widget.options.disableCenter) {
       return Container(
+        alignment: Alignment.topCenter,
         child: child,
       );
     }
@@ -301,7 +301,7 @@ class CarouselSliderState extends State<CarouselSlider>
   @override
   Widget build(BuildContext context) {
     return getGestureWrapper(PageView.builder(
-      padEnds: widget.options.padEnds,
+      padEnds: false,
       scrollBehavior: ScrollConfiguration.of(context).copyWith(
         scrollbars: false,
         overscroll: false,

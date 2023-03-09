@@ -1,3 +1,4 @@
+import 'package:blog_club/constants/colors.dart';
 import 'package:blog_club/constants/list.dart';
 import 'package:blog_club/models/story_model.dart';
 import 'package:blog_club/utilities/size_config.dart';
@@ -53,6 +54,11 @@ class MyApp extends StatelessWidget {
           bodyText1: TextStyle(
             fontSize: SizeConfig.setSizeHorizontally(13),
           ),
+          bodyText2: TextStyle(
+            fontSize: SizeConfig.setSizeHorizontally(18),
+            fontWeight: FontWeight.w500,
+            color: kwhiteColor,
+          ),
         ),
       ),
       home: const MyHomePage(),
@@ -94,14 +100,39 @@ class MyHomePage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Image.asset(
-                    'assets/img/icons/notification.png',
-                    scale: 4,
+                  SizedBox(
+                    width: SizeConfig.setSizeHorizontally(30),
+                    height: SizeConfig.setSizeVertically(32),
+                    child: Image.asset(
+                      'assets/img/icons/notification.png',
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ],
               ),
             ),
-            HorizontalWidgetList(stories: stories),
+            StoriesHorizontalWidgetList(stories: stories),
+            CarouselSlider.builder(
+              itemCount: posts.length,
+              itemBuilder: (context, index, realIndex) => PostsHorizontalWidget(
+                index: index,
+                posts: posts,
+                left: index == 0 ? 25 : 8,
+                right: index == posts.length - 1 ? 25 : 8,
+              ),
+              options: CarouselOptions(
+                scrollPhysics: const BouncingScrollPhysics(),
+                aspectRatio: 1.25,
+                viewportFraction: 0.8,
+                disableCenter: true,
+                initialPage: 0,
+                scrollDirection: Axis.horizontal,
+                enableInfiniteScroll: false,
+                enlargeCenterPage: true,
+                enlargeStrategy: CenterPageEnlargeStrategy.height,
+                autoPlay: false,
+              ),
+            ),
           ],
         ),
       ),
@@ -109,8 +140,87 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-class HorizontalWidgetList extends StatelessWidget {
-  const HorizontalWidgetList({
+class PostsHorizontalWidget extends StatelessWidget {
+  const PostsHorizontalWidget({
+    Key? key,
+    required this.index,
+    required this.posts,
+    required this.left,
+    required this.right,
+  }) : super(key: key);
+
+  final int index;
+  final List<Map<String, dynamic>> posts;
+  final double left;
+  final double right;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.fromLTRB(left, 0, right, 0),
+      child: Stack(
+        children: [
+          Positioned.fill(
+            top: 100,
+            right: 56,
+            left: 56,
+            bottom: 14,
+            child: Container(
+              decoration: const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: kblackColor,
+                    blurRadius: 10,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned.fill(
+            child: Container(
+              margin: EdgeInsets.only(
+                bottom: SizeConfig.setSizeVertically(16),
+              ),
+              foregroundDecoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(30),
+                ),
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Color.fromARGB(248, 22, 22, 49),
+                    Color.fromARGB(205, 22, 22, 49),
+                    Color.fromARGB(118, 34, 34, 74),
+                    Color.fromARGB(34, 21, 21, 23),
+                    Color.fromARGB(19, 21, 21, 23),
+                  ],
+                ),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: Image.asset(
+                  posts[index]['image'],
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            left: 40,
+            bottom: SizeConfig.setSizeVertically(50),
+            child: Text(
+              posts[index]['text'],
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class StoriesHorizontalWidgetList extends StatelessWidget {
+  const StoriesHorizontalWidgetList({
     Key? key,
     required this.stories,
   }) : super(key: key);
@@ -158,7 +268,7 @@ class HorizontalWidgetList extends StatelessWidget {
                       ),
                       child: Container(
                         margin: const EdgeInsets.all(3),
-                        padding: EdgeInsets.all(3),
+                        padding: const EdgeInsets.all(3),
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(
                             Radius.circular(20),

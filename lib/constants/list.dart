@@ -62,3 +62,30 @@ List<StoryModel> stories = [
     name: 'Jacky',
   ),
 ];
+
+List<Map<String, dynamic>> posts = [
+  {
+    'image': 'assets/img/posts/large/large_post_1.jpg',
+    'text': 'Technology',
+  },
+  {
+    'image': 'assets/img/posts/large/large_post_2.jpg',
+    'text': 'Science',
+  },
+  {
+    'image': 'assets/img/posts/large/large_post_3.jpg',
+    'text': 'History',
+  },
+  {
+    'image': 'assets/img/posts/large/large_post_4.jpg',
+    'text': 'Biology',
+  },
+  {
+    'image': 'assets/img/posts/large/large_post_5.jpg',
+    'text': 'Astronomy',
+  },
+  {
+    'image': 'assets/img/posts/large/large_post_6.jpg',
+    'text': 'Geology',
+  },
+];
